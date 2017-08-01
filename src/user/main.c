@@ -10,7 +10,7 @@ static void systemInit(void)
 	rINTCON = 0x05;
 	rINTMOD = 0x00;
 	rI_ISPC = 0x03FFFFFF;
-	rINTMSK &= ~(BIT_GLOBAL);
+	rINTMSK &= ~BIT_GLOBAL;
 }
 
 static void sysTickInit(void)
@@ -21,7 +21,7 @@ static void sysTickInit(void)
 	rWTCNT = 375;
 	rWTCON |= ex(5);
 	rI_ISPC = BIT_WDT;
-	rINTMSK &= ~(BIT_WDT);
+	rINTMSK &= ~BIT_WDT;
 }
 
 int Main(void)
@@ -32,12 +32,12 @@ int Main(void)
 
 	OSInit();
 
-	uart0PendingInit();
+	uart0Init();
 
 	OSTaskCreate(blink1, (void *)0, &stack0[127], 0);
 	OSTaskCreate(blink2, (void *)0, &stack1[127], 1);
 	OSTaskCreate(blink3, (void *)0, &stack2[127], 2);
-	OSTaskCreate(uart0Demo, (void *)0, &stack3[127], 3);
+	OSTaskCreate(serial, (void *)0, &stack3[127], 3);
 
 	OSStart();
 

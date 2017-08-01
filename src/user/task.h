@@ -6,6 +6,6 @@
 void blink1(void *pdata);
 void blink2(void *pdata);
 void blink3(void *pdata);
-void uart0Demo(void *pdata);
+void serial(void *pdata);
 
 #endif

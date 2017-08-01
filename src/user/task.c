@@ -36,17 +36,13 @@ void blink3(void *pdata)
 	}
 }
 
-void uart0Demo(void *pdata)
+void serial(void *pdata)
 {
+	char *str;
+
 	(void)pdata;
 	while (1) {
-		uart0PendingPrint("abcdefgh\r\n");
-		OSTimeDly(50);
-		uart0PendingPrint("12345678\r\n");
-		OSTimeDly(50);
-		uart0PendingPrint("hgfedcba\r\n");
-		OSTimeDly(50);
-		uart0PendingPrint("87654321\r\n");
-		OSTimeDly(50);
+		uart0Read(&str);
+		uart0Printf("%s\r\n", str);
 	}
 }

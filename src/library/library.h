@@ -4,7 +4,7 @@
 #include "define.h"
 
 #include "port.h"
-#include "uart0_pending.h"
+#include "uart0.h"
 
 #include "util.h"
 
