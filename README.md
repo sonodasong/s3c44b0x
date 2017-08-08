@@ -1,3 +1,3 @@
-# s3c44b0x
+# s3c44b0x_ucos-ii_fatfs_without_timer
 
-"S3C44B0X_uCOS-II_enhanced_1" is the recommended one to use.
+SPI clock: CPOL = 0, CPHA = 0 <=> falling edge clock.
