@@ -64,6 +64,7 @@ INT8U uart0Read(char **str)
 
 INT8U uart0Print(char *str)
 {
+	OS_CPU_SR cpu_sr;
 	INT8U err;
 	char temp;
 
@@ -73,11 +74,13 @@ INT8U uart0Print(char *str)
 	}
 	uart0TxPtr = str;
 	uart0TxCnt = 0;
-	do {
+	OS_ENTER_CRITICAL();
+	while ((temp != '\0') && !(rUFSTAT0 & ex(9))) {
 		rUTXH0 = temp;
 		uart0TxCnt++;
 		temp = str[uart0TxCnt];
-	} while ((temp != '\0') && uart0TxCnt < 16);
+	}
+	OS_EXIT_CRITICAL();
 	OSSemPend(uart0TxRdy, UART0_TX_TIMEOUT, &err);
 	return err;
 }
@@ -106,7 +109,7 @@ static void uart0RXDHandler(void)
 	boolean osCalled;
 
 	osCalled = FALSE;
-	while (rUFSTAT0 & 0x0F) {
+	while (rUFSTAT0 & 0x000F) {
 		temp = rURXH0;;
 		if (temp == UART0_RX_EOF) {
 			uart0RxBuf[uart0RxQCnt][uart0RxCnt] = '\0';
@@ -141,7 +144,7 @@ static void uart0TXDHandler(void)
 		OSIntExit();
 	} else {
 		fifoCnt = 0;
-		while ((temp != '\0') && (fifoCnt < 16)) {
+		while ((temp != '\0') && !(rUFSTAT0 & ex(9))) {
 			rUTXH0 = temp;
 			fifoCnt++;
 			uart0TxCnt++;
