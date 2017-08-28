@@ -4,13 +4,13 @@
 #include <s3c44b0x.h>
 #include <ucos_ii.h>
 
-typedef INT8S int8;
-typedef INT8U uint8;
-typedef INT16S int16;
-typedef INT16U uint16;
-typedef INT32S int32;
-typedef INT32U uint32;
-typedef BOOLEAN boolean;
+typedef unsigned char boolean;
+typedef signed char int8;
+typedef unsigned char uint8;
+typedef signed short int16;
+typedef unsigned short uint16;
+typedef signed long int32;
+typedef unsigned long uint32;
 
 #define ex(n)		(0x01<<(n))
 #define rex(n)		(~ex(n))
