@@ -33,8 +33,8 @@ typedef signed long			INT32S;
 typedef float				FP32;
 typedef double				FP64;
 
-typedef unsigned int		OS_STK;
-typedef unsigned int		OS_CPU_SR;
+typedef INT32U				OS_STK;
+typedef INT32U				OS_CPU_SR;
 
 /* 
 *********************************************************************************************************
