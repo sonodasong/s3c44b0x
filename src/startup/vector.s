@@ -40,11 +40,11 @@ NOINT       EQU 0xc0
 $HandlerLabel HANDLER $Handle
 
 $HandlerLabel
-    sub	    sp, sp, #4                  ; decrement sp (to store jump address)
+    sub     sp, sp, #4                  ; decrement sp (to store jump address)
     stmfd   sp!, {r0}                   ; PUSH the work register to stack (lr doest push because it return to original address)
-    ldr	    r0, = $Handle               ; load the address of HandleXXX to r0
+    ldr     r0, = $Handle               ; load the address of HandleXXX to r0
     ldr     r0, [r0]                    ; load the contents (service routine start address) of HandleXXX
-    str	    r0, [sp, #4]                ; store the contents (ISR) of HandleXXX to stack
+    str     r0, [sp, #4]                ; store the contents (ISR) of HandleXXX to stack
     ldmfd   sp!, {r0, pc}               ; POP the work register and pc (jump to ISR)
     MEND
 
@@ -88,13 +88,13 @@ HandlerPabort   HANDLER HandlePabort
 ;*  START                                           *
 ;****************************************************
 ResetHandler
-    ldr	    r0, = WTCON                 ; watch dog disable
-    ldr	    r1, = 0x0
-    str	    r1, [r0]
+    ldr     r0, = WTCON                 ; watch dog disable
+    ldr     r1, = 0x0
+    str     r1, [r0]
 
-    ldr	    r0, = INTMSK
-    ldr	    r1, = 0x07ffffff            ; all interrupt disable
-    str	    r1, [r0]
+    ldr     r0, = INTMSK
+    ldr     r1, = 0x07ffffff            ; all interrupt disable
+    str     r1, [r0]
 
 ;****************************************************
 ;*  Set clock control registers                     *
