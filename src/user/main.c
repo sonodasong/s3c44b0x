@@ -1,6 +1,7 @@
 #include "user.h"
 
 static OS_STK stack0[512];
+static OS_STK stack1[128];
 
 static void systemInit(void)
 {
@@ -29,9 +30,11 @@ int Main(void)
 
 	OSInit();
 
+	spiInit();
 	uart0Init();
 
-	OSTaskCreate(lcdDemo, (void *)0, &stack0[511], 0);
+	OSTaskCreate(lcdGramReadTask, (void *)0, &stack0[511], 0);
+	OSTaskCreate(fatfsTimerTask, (void *)0, &stack1[127], 1);
 
 	OSStart();
 

@@ -15,6 +15,7 @@
 #define LCD_WR_HIGH()		rPDATD |= ex(5)
 
 void lcdPinInit(void);
+uint16 lcdStatusR(void);
 void lcdIndexW(uint16 index);
 uint16 lcdDataR(void);
 void lcdDataW(uint16 data);

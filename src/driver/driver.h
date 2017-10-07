@@ -4,6 +4,7 @@
 #include "define.h"
 
 #include "port.h"
+#include "spi.h"
 #include "uart0.h"
 
 #endif

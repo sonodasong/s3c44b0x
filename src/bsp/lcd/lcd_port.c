@@ -30,12 +30,25 @@ void lcdPinInit(void)
 	rPUPC = 0x00;
 }
 
+uint16 lcdStatusR(void)
+{
+	uint16 status;
+
+	LCD_CS_LOW();
+	LCD_RS_LOW();
+	LCD_RD_LOW();
+	status = portRead();
+	LCD_RD_HIGH();
+	LCD_CS_HIGH();
+	return status;
+}
+
 void lcdIndexW(uint16 index)
 {
 	LCD_CS_LOW();
 	LCD_RS_LOW();
-	LCD_WR_LOW();
 	portWrite(index);
+	LCD_WR_LOW();
 	LCD_WR_HIGH();
 	LCD_CS_HIGH();
 }
@@ -57,8 +70,8 @@ void lcdDataW(uint16 data)
 {
 	LCD_CS_LOW();
 	LCD_RS_HIGH();
-	LCD_WR_LOW();
 	portWrite(data);
+	LCD_WR_LOW();
 	LCD_WR_HIGH();
 	LCD_CS_HIGH();
 }

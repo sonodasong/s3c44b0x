@@ -3,6 +3,7 @@
 
 #include <driver.h>
 
+#include "fatfs/ff.h"
 #include "lcd/lcd.h"
 #include "util.h"
 

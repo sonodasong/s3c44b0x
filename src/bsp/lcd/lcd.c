@@ -64,16 +64,40 @@ void lcdInitFromTask(void)
 	lcdRegW(0x21,0x0000);
 }
 
+void lcdGramRead(uint16 *buf, uint16 x, uint16 y, uint32 size)
+{
+	uint32 i;
+
+	lcdSetRamAddr(x, y);
+	lcdIndexW(0x22);
+	lcdDataR();
+	for (i = 0; i < size; i++) {
+		buf[i] = lcdDataR();
+	}
+}
+
 void lcdDisplaySingleColor(uint16 color)
 {
 	uint16 x;
 	uint16 y;
+
 	lcdSetRamAddr(0, 0);
 	lcdIndexW(0x22);
-	for(y = 0; y < 320; y++) {
-		for (x = 0; x < 240; x++) {
+	for(y = 0; y < LCD_HEIGHT; y++) {
+		for (x = 0; x < LCD_WIDTH; x++) {
 			lcdDataW(color);
 		}
+	}
+}
+
+void lcdDisplayBmp(uint16 *buf)
+{
+	uint32 i;
+
+	lcdSetRamAddr(0, 0);
+	lcdIndexW(0x22);
+	for (i = 0; i < LCD_WIDTH * LCD_HEIGHT; i++) {
+		lcdDataW(buf[i]);
 	}
 }
 
