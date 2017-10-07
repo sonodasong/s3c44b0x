@@ -1,10 +1,10 @@
 #include "port.h"
 #include "util.h"
 
-void strBufClr(char *buf, uint8 size)
+void strClr(char *str, uint8 size)
 {
 	while (size != 0) {
-		buf[size - 1] = '\0';
+		str[size - 1] = '\0';
 		size--;
 	}
 }

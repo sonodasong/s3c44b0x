@@ -3,7 +3,7 @@
 
 #include "define.h"
 
-#define SPI_TIMEOUT			0xFFFFFFFF
+#define SPI_TIMEOUT		0xFFFFFFFF
 
 void spiInit(void);
 INT8U spiBufR(uint8 *buf, uint16 size, uint8 fill);

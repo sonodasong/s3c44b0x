@@ -3,7 +3,7 @@
 
 #include "define.h"
 
-void strBufClr(char *buf, uint8 size);
+void strClr(char *str, uint8 size);
 uint8 strCpy(char *src, char *dst, uint8 size);
 void ledInit(uint8 num);
 void ledOn(uint8 num);
