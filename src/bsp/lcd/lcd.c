@@ -70,23 +70,22 @@ void lcdGramRead(uint16 *buf, uint16 x, uint16 y, uint32 size)
 
 	lcdSetRamAddr(x, y);
 	lcdIndexW(0x22);
+	lcdPortIn();
 	lcdDataR();
 	for (i = 0; i < size; i++) {
 		buf[i] = lcdDataR();
 	}
+	lcdPortOut();
 }
 
 void lcdDisplaySingleColor(uint16 color)
 {
-	uint16 x;
-	uint16 y;
+	uint32 i;
 
 	lcdSetRamAddr(0, 0);
 	lcdIndexW(0x22);
-	for(y = 0; y < LCD_HEIGHT; y++) {
-		for (x = 0; x < LCD_WIDTH; x++) {
-			lcdDataW(color);
-		}
+	for(i = 0; i < LCD_WIDTH * LCD_HEIGHT; i++) {
+		lcdDataW(color);
 	}
 }
 
@@ -103,8 +102,13 @@ void lcdDisplayBmp(uint16 *buf)
 
 static uint16 lcdRegR(uint16 reg)
 {
+	uint16 data;
+
 	lcdIndexW(reg);
-	return lcdDataR();
+	lcdPortIn();
+	data = lcdDataR();
+	lcdPortOut();
+	return data;
 }
 
 static void lcdRegW(uint16 reg, uint16 data)

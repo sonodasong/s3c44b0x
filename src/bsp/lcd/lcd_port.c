@@ -1,8 +1,5 @@
 #include "lcd_port.h"
 
-__inline static uint16 portRead(void);
-__inline static void portWrite(uint16 data);
-
 void lcdPinInit(void)
 {
 	/* RESET */
@@ -26,64 +23,6 @@ void lcdPinInit(void)
 	portPullUp(3, 5, 0);
 	LCD_WR_HIGH();
 	/* Data */
-	rPCONC = 0x00;
-	rPUPC = 0x00;
-}
-
-uint16 lcdStatusR(void)
-{
-	uint16 status;
-
-	LCD_CS_LOW();
-	LCD_RS_LOW();
-	LCD_RD_LOW();
-	status = portRead();
-	LCD_RD_HIGH();
-	LCD_CS_HIGH();
-	return status;
-}
-
-void lcdIndexW(uint16 index)
-{
-	LCD_CS_LOW();
-	LCD_RS_LOW();
-	portWrite(index);
-	LCD_WR_LOW();
-	LCD_WR_HIGH();
-	LCD_CS_HIGH();
-}
-
-uint16 lcdDataR(void)
-{
-	uint16 data;
-
-	LCD_CS_LOW();
-	LCD_RS_HIGH();
-	LCD_RD_LOW();
-	data = portRead();
-	LCD_RD_HIGH();
-	LCD_CS_HIGH();
-	return data;
-}
-
-void lcdDataW(uint16 data)
-{
-	LCD_CS_LOW();
-	LCD_RS_HIGH();
-	portWrite(data);
-	LCD_WR_LOW();
-	LCD_WR_HIGH();
-	LCD_CS_HIGH();
-}
-
-__inline static uint16 portRead(void)
-{
-	rPCONC = 0x00;
-	return (uint16) rPDATC;
-}
-
-__inline static void portWrite(uint16 data)
-{
 	rPCONC = 0x55555555;
-	rPDATC = data;
+	rPUPC = 0x00;
 }

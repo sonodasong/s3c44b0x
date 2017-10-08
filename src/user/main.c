@@ -33,7 +33,7 @@ int Main(void)
 	spiInit();
 	uart0Init();
 
-	OSTaskCreate(lcdGramReadTask, (void *)0, &stack0[511], 0);
+	OSTaskCreate(lcdDisplayBmpTask, (void *)0, &stack0[511], 0);
 	OSTaskCreate(fatfsTimerTask, (void *)0, &stack1[127], 1);
 
 	OSStart();

@@ -49,10 +49,10 @@ void serial(void *pdata)
 
 extern void disk_timerproc (void);
 
+static uint8 buf[3 * LCD_WIDTH * LCD_HEIGHT];
+
 static void bmp24To16(void);
 static void printBuf(void);
-
-uint8 buf[3 * LCD_WIDTH * LCD_HEIGHT];
 
 void lcdDisplayBmpTask(void *pdata)
 {
