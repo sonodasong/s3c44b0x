@@ -12,7 +12,7 @@ void lcdPinInit(void)
 	LCD_CS_HIGH();
 	/* RS */
 	portControl(3, 1, 1);
-	portPullUp(3, 2, 0);
+	portPullUp(3, 1, 0);
 	LCD_RS_LOW();
 	/* RD */
 	portControl(3, 3, 1);
