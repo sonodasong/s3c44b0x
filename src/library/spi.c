@@ -33,8 +33,8 @@ void spiInit(void)
 	/* cannot understand why it is falling edge clock here */
 	rSIOCON = 0x21;
 
-	/* 1 MHz */
-	rSBRDR = 36;
+	/* 18.75 MHz */
+	rSBRDR = 1;
 
 	/* set up semaphore */
 	spiRdy = OSSemCreate(0);
@@ -94,10 +94,10 @@ void spiClockSlow(void)
 	rSBRDR = 149;
 }
 
-/* 1 MHz */
+/* 18.75 MHz */
 void spiClockFast(void)
 {
-	rSBRDR = 36;
+	rSBRDR = 1;
 }
 
 static void spiBufRHandler(void)
