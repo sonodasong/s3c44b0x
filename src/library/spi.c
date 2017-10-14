@@ -1,8 +1,8 @@
 #include "port.h"
 #include "spi.h"
 
-static uint8 *spiTxBuf;
 static uint8 *spiRxBuf;
+static uint8 *spiTxBuf;
 static uint16 spiSize;
 static uint16 spiCnt;
 static uint8 spiFill;
@@ -77,8 +77,8 @@ INT8U spiBufWR(uint8 *txBuf, uint8 *rxBuf, uint16 size)
 {
 	INT8U err;
 
-	spiTxBuf = txBuf;
 	spiRxBuf = rxBuf;
+	spiTxBuf = txBuf;
 	spiSize = size;
 	spiCnt = 0;
 	pISR_SIO = (uint32)spiBufWRHandler;
