@@ -54,8 +54,8 @@ __inline void lcdIndexW(uint16 index)
 {
 	LCD_CS_LOW();
 	LCD_RS_LOW();
-	lcdPortWrite(index);
 	LCD_WR_LOW();
+	lcdPortWrite(index);
 	LCD_WR_HIGH();
 	LCD_CS_HIGH();
 }
@@ -77,8 +77,8 @@ __inline void lcdDataW(uint16 data)
 {
 	LCD_CS_LOW();
 	LCD_RS_HIGH();
-	lcdPortWrite(data);
 	LCD_WR_LOW();
+	lcdPortWrite(data);
 	LCD_WR_HIGH();
 	LCD_CS_HIGH();
 }

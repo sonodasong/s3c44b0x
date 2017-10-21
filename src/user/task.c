@@ -47,8 +47,6 @@ void serial(void *pdata)
 	}
 }
 
-extern void disk_timerproc (void);
-
 static uint8 buf[3 * LCD_WIDTH * LCD_HEIGHT];
 
 static void bmp24To16(void);
@@ -71,9 +69,9 @@ void lcdDisplayBmpTask(void *pdata)
 		f_open(&fil, "demo.bmp", FA_READ);
 		f_lseek(&fil, 54);
 		f_read(&fil, buf, 3 * LCD_WIDTH * LCD_HEIGHT, &rc);
+		f_close(&fil);
 		bmp24To16();
 		lcdDisplayBmp((uint16 *) buf);
-		f_close(&fil);
 	}
 }
 
@@ -94,9 +92,9 @@ void lcdGramReadTask(void *pdata)
 		f_open(&fil, "demo.bmp", FA_READ);
 		f_lseek(&fil, 54);
 		f_read(&fil, buf, 3 * LCD_WIDTH * LCD_HEIGHT, &rc);
+		f_close(&fil);
 		bmp24To16();
 		lcdDisplayBmp((uint16 *) buf);
-		f_close(&fil);
 
 		uart0Printf("buf data:\r\n");
 		printBuf();
@@ -111,6 +109,8 @@ void lcdGramReadTask(void *pdata)
 
 void fatfsTimerTask(void *pdata)
 {
+	extern void disk_timerproc (void);
+
 	(void)pdata;
 	while (1) {
 		disk_timerproc();
