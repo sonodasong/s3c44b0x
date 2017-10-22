@@ -3,9 +3,10 @@
 void power_on(void)
 {
 	/* CS pin configuration */
-	rPDATE |= ex(5);
+	CS_HIGH();
 	portControl(4, 5, 1);
 	portPullUp(4, 5, 0);
+
 	OSTimeDly(100 / (1000 /OS_TICKS_PER_SEC));
 }
 
