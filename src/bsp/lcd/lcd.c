@@ -13,6 +13,7 @@ void lcdInitFromTask(void)
 	LCD_RST_LOW();
 	OSTimeDly(MS_10);
 	LCD_RST_HIGH();
+	uart0Printf("LCD device code: %#06x\r\n", lcdRegR(0x0000));
 	lcdRegW(0x00,0x0000); OSTimeDly(MS_10);
 	lcdRegW(0x07,0x0001); OSTimeDly(MS_10);//Display Control 1
 	lcdRegW(0x08,0x0405); OSTimeDly(MS_10);//Display Control 2 0808

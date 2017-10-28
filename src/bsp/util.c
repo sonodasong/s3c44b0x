@@ -20,6 +20,18 @@ uint8 strCpy(char *src, char *dst, uint8 size)
 	return i;
 }
 
+boolean strCmp(char *str1, char *str2, uint8 size)
+{
+	uint8 i;
+
+	for (i = 0; i < size; i++) {
+		if (str1[i] != str2[i]) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
 void ledInit(uint8 num)
 {
 	portControl(2, num, 1);

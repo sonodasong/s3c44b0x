@@ -29,6 +29,7 @@ __inline void lcdPortOut(void)
 
 __inline uint16 lcdPortRead(void)
 {
+	OSTimeDly(1);
 	return (uint16) rPDATC;
 }
 

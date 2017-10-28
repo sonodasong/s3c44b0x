@@ -47,10 +47,10 @@ void serial(void *pdata)
 	}
 }
 
-static uint8 buf[3 * LCD_WIDTH * LCD_HEIGHT];
+static uint8 buffer[3 * LCD_WIDTH * LCD_HEIGHT];
 
 static void bmp24To16(void);
-static void printBuf(void);
+static void printbuffer(uint8 *buf);
 
 void lcdDisplayBmpTask(void *pdata)
 {
@@ -68,10 +68,10 @@ void lcdDisplayBmpTask(void *pdata)
 		lcdDisplaySingleColor(0xFFE0);
 		f_open(&fil, "demo.bmp", FA_READ);
 		f_lseek(&fil, 54);
-		f_read(&fil, buf, 3 * LCD_WIDTH * LCD_HEIGHT, &rc);
+		f_read(&fil, buffer, 3 * LCD_WIDTH * LCD_HEIGHT, &rc);
 		f_close(&fil);
 		bmp24To16();
-		lcdDisplayBmp((uint16 *) buf);
+		lcdDisplayBmp((uint16 *)buffer);
 	}
 }
 
@@ -91,25 +91,28 @@ void lcdGramReadTask(void *pdata)
 		lcdDisplaySingleColor(0xFFE0);
 		f_open(&fil, "demo.bmp", FA_READ);
 		f_lseek(&fil, 54);
-		f_read(&fil, buf, 3 * LCD_WIDTH * LCD_HEIGHT, &rc);
+		f_read(&fil, buffer, 3 * LCD_WIDTH * LCD_HEIGHT, &rc);
 		f_close(&fil);
 		bmp24To16();
-		lcdDisplayBmp((uint16 *) buf);
+		lcdDisplayBmp((uint16 *)buffer);
 
-		uart0Printf("buf data:\r\n");
-		printBuf();
-		strClr((char *)buf, 128);
-		uart0Printf("buf cleared:\r\n");
-		printBuf();
-		lcdGramRead((uint16 *)buf, 0, 0, 64);
+		uart0Printf("buffer data:\r\n");
+		printbuffer(buffer);
+		strClr((char *)(buffer + 128), 128);
+		lcdGramRead((uint16 *)(buffer + 128), 0, 0, 64);
 		uart0Printf("GRAM data:\r\n");
-		printBuf();
+		printbuffer(buffer + 128);
+		if (strCmp((char *)buffer, (char *)(buffer + 128), 128)) {
+			uart0Printf("GRAM read success\r\n");
+		} else {
+			uart0Printf("GRAM read fail\r\n");
+		}
 	}
 }
 
 void fatfsTimerTask(void *pdata)
 {
-	extern void disk_timerproc (void);
+	extern void disk_timerproc(void);
 
 	(void)pdata;
 	while (1) {
@@ -125,15 +128,15 @@ static void bmp24To16(void)
 
 	i16 = 0;
 	for (i24 = 0; i24 < 3 * LCD_WIDTH * LCD_HEIGHT;) {
-		blue = buf[i24++];
-		green = buf[i24++];
-		red = buf[i24++];
-		buf[i16++] = ((green << 3) & 0xE0) | (blue >> 3);
-		buf[i16++] = (red & 0xF8) | (green >> 5);
+		blue = buffer[i24++];
+		green = buffer[i24++];
+		red = buffer[i24++];
+		buffer[i16++] = ((green << 3) & 0xE0) | (blue >> 3);
+		buffer[i16++] = (red & 0xF8) | (green >> 5);
 	}
 }
 
-static void printBuf(void)
+static void printbuffer(uint8 *buf)
 {
 	uint8 i;
 	uint8 j;
