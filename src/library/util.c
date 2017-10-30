@@ -23,9 +23,9 @@ uint8 strCpy(char *src, char *dst, uint8 size)
 
 void ledInit(uint8 num)
 {
+	rPDATC &= rex(num);
 	portControl(2, num, 1);
 	portPullUp(2, num, 0);
-	rPDATC &= rex(num);
 }
 
 void ledOn(uint8 num)
