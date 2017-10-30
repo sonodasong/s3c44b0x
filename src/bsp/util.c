@@ -34,9 +34,9 @@ boolean strCmp(char *str1, char *str2, uint8 size)
 
 void ledInit(uint8 num)
 {
+	rPDATC &= rex(num);
 	portControl(2, num, 1);
 	portPullUp(2, num, 0);
-	rPDATC &= rex(num);
 }
 
 void ledOn(uint8 num)

@@ -4,15 +4,15 @@
 #include "define.h"
 
 /* queue size is 2 ^ UART0_RX_Q_SIZE */
-#define UART0_RX_Q_SIZE				2
+#define UART0_RX_Q_SIZE			2
 /* buffer size is 2 ^ UART0_RX_SIZE */
-#define UART0_RX_SIZE				4
-#define UART0_RX_TIMEOUT			0xFFFFFFFF
-#define UART0_RX_EOF				'\r'
+#define UART0_RX_SIZE			4
+#define UART0_RX_TIMEOUT		0xFFFFFFFF
+#define UART0_RX_EOF			'\r'
 
-#define UART0_TX_TIMEOUT			0xFFFFFFFF
+#define UART0_TX_TIMEOUT		0xFFFFFFFF
 
-#define UART0_ENABLE_PRINTF			TRUE
+#define UART0_ENABLE_PRINTF		TRUE
 
 void uart0Init(void);
 INT8U uart0Read(char **str);
