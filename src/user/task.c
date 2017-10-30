@@ -81,6 +81,7 @@ void lcdGramReadTask(void *pdata)
 	FIL fil;
 	UINT rc;
 	char *str;
+	uint8 i;
 
 	(void)pdata;
 	lcdInitFromTask();
@@ -88,7 +89,7 @@ void lcdGramReadTask(void *pdata)
 	while (1) {
 		uart0Read(&str);
 		uart0Printf("%s\r\n", str);
-		lcdDisplaySingleColor(0xFFE0);
+		lcdDisplaySingleColor(0x07FF);
 		f_open(&fil, "demo.bmp", FA_READ);
 		f_lseek(&fil, 54);
 		f_read(&fil, buffer, 3 * LCD_WIDTH * LCD_HEIGHT, &rc);
@@ -99,7 +100,9 @@ void lcdGramReadTask(void *pdata)
 		uart0Printf("buffer data:\r\n");
 		printbuffer(buffer);
 		strClr((char *)(buffer + 128), 128);
-		lcdGramRead((uint16 *)(buffer + 128), 0, 0, 64);
+		for (i = 0; i < 64; i++) {
+			((uint16 *)(buffer + 128))[i] = lcdGramRead(i, 0);
+		}
 		uart0Printf("GRAM data:\r\n");
 		printbuffer(buffer + 128);
 		if (strCmp((char *)buffer, (char *)(buffer + 128), 128)) {
@@ -131,8 +134,8 @@ static void bmp24To16(void)
 		blue = buffer[i24++];
 		green = buffer[i24++];
 		red = buffer[i24++];
-		buffer[i16++] = ((green << 3) & 0xE0) | (blue >> 3);
-		buffer[i16++] = (red & 0xF8) | (green >> 5);
+		buffer[i16++] = ((green << 3) & 0xE0) | (red >> 3);
+		buffer[i16++] = (blue & 0xF8) | (green >> 5);
 	}
 }
 

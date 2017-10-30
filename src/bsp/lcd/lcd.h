@@ -7,7 +7,7 @@
 #define LCD_HEIGHT		320
 
 void lcdInitFromTask(void);
-void lcdGramRead(uint16 *buf, uint16 x, uint16 y, uint32 size);
+uint16 lcdGramRead(uint16 x, uint16 y);
 void lcdDisplaySingleColor(uint16 color);
 void lcdDisplayBmp(uint16 *buf);
 

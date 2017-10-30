@@ -13,6 +13,7 @@ void lcdInitFromTask(void)
 	LCD_RST_LOW();
 	OSTimeDly(MS_10);
 	LCD_RST_HIGH();
+	OSTimeDly(1);
 	uart0Printf("LCD device code: %#06x\r\n", lcdRegR(0x0000));
 	lcdRegW(0x00,0x0000); OSTimeDly(MS_10);
 	lcdRegW(0x07,0x0001); OSTimeDly(MS_10);//Display Control 1
@@ -42,7 +43,7 @@ void lcdInitFromTask(void)
 	lcdRegW(0x12,0x01B8); OSTimeDly(MS_10);//Power Control 3 0x013e
 	lcdRegW(0x01,0x0100); OSTimeDly(MS_10);//Driver Output Control
 	lcdRegW(0x02,0x0300); OSTimeDly(MS_10);//LCD Driving Wave Control 0x0701
-	lcdRegW(0x03,0x1030); OSTimeDly(MS_10);//Entry Mode 0x1030
+	lcdRegW(0x03,0x0030); OSTimeDly(MS_10);//Entry Mode 0x0030
 	lcdRegW(0x04,0x0000); OSTimeDly(MS_10);//Resizing Control
 	lcdRegW(0x09,0x0028); OSTimeDly(MS_10);//Display Control 3 0x0028
 	lcdRegW(0x0C,0x0000); OSTimeDly(MS_10);//interface select
@@ -65,18 +66,17 @@ void lcdInitFromTask(void)
 	lcdRegW(0x21,0x0000);
 }
 
-void lcdGramRead(uint16 *buf, uint16 x, uint16 y, uint32 size)
+uint16 lcdGramRead(uint16 x, uint16 y)
 {
-	uint32 i;
+	uint16 data;
 
 	lcdSetRamAddr(x, y);
 	lcdIndexW(0x22);
 	lcdPortIn();
 	lcdDataR();
-	for (i = 0; i < size; i++) {
-		buf[i] = lcdDataR();
-	}
+	data = lcdDataR();
 	lcdPortOut();
+	return data;
 }
 
 void lcdDisplaySingleColor(uint16 color)
